@@ -65,36 +65,36 @@ export const config = {
     FLOW_NETWORK: process.env.FLOW_NETWORK || 'emulator',
     FLOW_ACCESS_NODE: process.env.FLOW_ACCESS_NODE || NETWORK_ENDPOINTS[process.env.FLOW_NETWORK || 'emulator'],
     FLOW_WALLET: process.env.FLOW_WALLET || WALLET_DISCOVERY[process.env.FLOW_NETWORK || 'emulator'],
-
+    
     // Contracts
     AION_VAULT_ADDRESS: process.env.AION_VAULT_ADDRESS || '0xf8d6e0586b0a20c7', // Default to emulator
     ACTION_REGISTRY_ADDRESS: process.env.ACTION_REGISTRY_ADDRESS || '0xf8d6e0586b0a20c7',
-
+    
     // Executor
     EXECUTOR_PRIVATE_KEY: process.env.EXECUTOR_PRIVATE_KEY || '',
     EXECUTOR_ADDRESS: process.env.EXECUTOR_ADDRESS || '0xf8d6e0586b0a20c7',
-
+    
     // AI Settings
     AUTO_EXECUTE_RECOMMENDATIONS: process.env.AUTO_EXECUTE_RECOMMENDATIONS === 'true',
     MIN_CONFIDENCE: parseInt(process.env.MIN_CONFIDENCE || '80'),
     REBALANCE_PERCENTAGE: parseInt(process.env.REBALANCE_PERCENTAGE || '50'),
-
+    
     // Scheduling
     USE_SCHEDULED_TX: process.env.USE_SCHEDULED_TX === 'true',
     EXECUTION_DELAY: parseInt(process.env.EXECUTION_DELAY || '300'),
-
+    
     // Monitoring
     POLL_INTERVAL: parseInt(process.env.POLL_INTERVAL || '5000'),
     START_BLOCK_HEIGHT: process.env.START_BLOCK_HEIGHT ? parseInt(process.env.START_BLOCK_HEIGHT) : null,
-
+    
     // Analytics
     ANALYTICS_WEBHOOK: process.env.ANALYTICS_WEBHOOK || '',
     DUNE_API_KEY: process.env.DUNE_API_KEY || '',
-
+    
     // Logging
     LOG_LEVEL: process.env.LOG_LEVEL || 'info',
     LOG_FILE: process.env.LOG_FILE || './logs/executor.log',
-
+    
     // Security
     MAX_GAS_LIMIT: parseInt(process.env.MAX_GAS_LIMIT || '9999'),
     EMERGENCY_PAUSE_THRESHOLD: parseInt(process.env.EMERGENCY_PAUSE_THRESHOLD || '10'),

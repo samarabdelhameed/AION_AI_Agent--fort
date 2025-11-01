@@ -118,8 +118,8 @@ export async function deposit(amount: string) {
   const transactionId = await fcl.mutate({
     cadence: `
       import AIONVault from ${CONTRACTS.AION_VAULT}
-
-      transaction(amount: UFix64) {
+    
+    transaction(amount: UFix64) {
         let signerAddress: Address
         
         prepare(signer: &Account) {
@@ -153,8 +153,8 @@ export async function withdraw(shares: string) {
   const transactionId = await fcl.mutate({
     cadence: `
       import AIONVault from ${CONTRACTS.AION_VAULT}
-
-      transaction(shares: UFix64) {
+    
+    transaction(shares: UFix64) {
         let signerAddress: Address
         
         prepare(signer: &Account) {
@@ -164,8 +164,8 @@ export async function withdraw(shares: string) {
         execute {
           let amount = AIONVault.withdraw(from: self.signerAddress, shares: shares)
           log("Withdrew ".concat(amount.toString()).concat(" by burning ").concat(shares.toString()).concat(" shares"))
-        }
       }
+    }
     `,
     args: (arg, t) => [arg(shares, t.UFix64)],
     proposer: fcl.authz,
@@ -189,12 +189,12 @@ export function subscribeToUser(callback: (user: any) => void) {
  * Get events by type
  */
 export async function getEvents(eventType: string, fromBlock: number = 0) {
-  try {
-    const events = await fcl.send([
+    try {
+      const events = await fcl.send([
       fcl.getEvents(eventType, fromBlock),
-    ]).then(fcl.decode);
+      ]).then(fcl.decode);
     return events;
-  } catch (error) {
+    } catch (error) {
     console.error("Failed to get events:", error);
     throw error;
   }
