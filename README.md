@@ -2,6 +2,7 @@
 
 [![Flow Testnet](https://img.shields.io/badge/Flow-Testnet%20Live-00EF8B?style=for-the-badge&logo=flow)](https://testnet.flowscan.io/account/0xc7a34c80e6f3235b)
 [![GitHub](https://img.shields.io/badge/GitHub-Source%20Code-181717?style=for-the-badge&logo=github)](https://github.com/samarabdelhameed/AION_AI_Agent--fort)
+[![Twitter](https://img.shields.io/badge/Twitter-Announcement-1DA1F2?style=for-the-badge&logo=twitter)](https://x.com/SamarAbdelhmeed/status/1984624968525648228)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
 > **Autonomous AI Agent for DeFi Strategy Optimization & Yield Maximization on Flow Blockchain**
@@ -701,6 +702,16 @@ MIT License - See [LICENSE](LICENSE) file for details
 ---
 
 **🌟 Built with ❤️ for Flow Blockchain • Competing in Forte Hacks 2025 🌟**
+
+---
+
+## 📢 Follow the Project
+
+**Twitter/X Announcement:** [https://x.com/SamarAbdelhmeed/status/1984624968525648228](https://x.com/SamarAbdelhmeed/status/1984624968525648228)
+
+**GitHub Repository:** [https://github.com/samarabdelhameed/AION_AI_Agent--fort](https://github.com/samarabdelhameed/AION_AI_Agent--fort)
+
+**Flow Testnet Explorer:** [https://testnet.flowscan.io/account/0xc7a34c80e6f3235b](https://testnet.flowscan.io/account/0xc7a34c80e6f3235b)
 
 ---
 
