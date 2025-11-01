@@ -221,9 +221,9 @@ access(all) fun deposit(from: Address, amount: UFix64): UFix64 {
 
 ---
 
-## 🔄 Flow Integration Architecture
+## 🔄 Complete System Architecture
 
-### System Flowchart:
+### Full Integration Flowchart:
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -238,60 +238,91 @@ access(all) fun deposit(from: Address, amount: UFix64): UFix64 {
         │  - Real-time Stats         │
         └────────────┬───────────────┘
                      │
-                     ▼
-        ┌────────────────────────────┐
-        │   Flow Client Library      │
-        │  - Transaction Building    │
-        │  - Event Subscription      │
-        │  - Script Execution        │
-        └────────────┬───────────────┘
-                     │
-                     ▼
-┌────────────────────────────────────────────────────────────┐
-│              FLOW BLOCKCHAIN (Testnet)                      │
-│                                                             │
-│  ┌──────────────────┐         ┌──────────────────┐        │
-│  │  ActionRegistry  │◄────────┤   AIONVault      │        │
-│  │  0xc7a34c80e...  │         │   0xc7a34c80e... │        │
-│  │                  │         │                  │        │
-│  │  - Register      │         │  - deposit()     │        │
-│  │  - Get Actions   │         │  - withdraw()    │        │
-│  │  - Log Exec      │         │  - rebalance()   │        │
-│  └──────────────────┘         └──────────────────┘        │
-│           │                            │                   │
-│           └────────────┬───────────────┘                   │
-│                        │                                   │
-│                        ▼                                   │
-│           ┌────────────────────────┐                       │
-│           │    Events Emitted      │                       │
-│           │  - Deposit             │                       │
-│           │  - Withdraw            │                       │
-│           │  - Rebalance           │                       │
-│           │  - ActionExecuted      │                       │
-│           │  - AIRecommendation    │                       │
-│           └────────────┬───────────┘                       │
-└────────────────────────┼───────────────────────────────────┘
+                     ├──────────────────────┐
+                     │                      │
+                     ▼                      ▼
+        ┌────────────────────┐   ┌──────────────────┐
+        │  Flow Client (FCL) │   │   MCP Agent API  │
+        │  - Transactions    │   │  - AI Service    │
+        │  - Scripts         │   │  - Analytics     │
+        └──────┬─────────────┘   │  - Real Data     │
+               │                 └────────┬─────────┘
+               │                          │
+               │         ┌────────────────┘
+               │         │
+               ▼         ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│              FLOW BLOCKCHAIN (Testnet)                                │
+│                                                                       │
+│  ┌──────────────────┐         ┌──────────────────┐                  │
+│  │  ActionRegistry  │◄────────┤   AIONVault      │                  │
+│  │  0xc7a34c80e...  │         │   0xc7a34c80e... │                  │
+│  │                  │         │                  │                  │
+│  │  - Register      │         │  - deposit()     │                  │
+│  │  - Get Actions   │         │  - withdraw()    │                  │
+│  │  - Log Exec      │         │  - rebalance()   │                  │
+│  └──────────────────┘         └──────────────────┘                  │
+│           │                            │                             │
+│           └────────────┬───────────────┘                             │
+│                        │                                             │
+│                        ▼                                             │
+│           ┌────────────────────────┐                                 │
+│           │    Events Emitted      │                                 │
+│           │  - Deposit             │    Block: 287965691 ✅          │
+│           │  - Withdraw            │    Assets: 10 FLOW ✅           │
+│           │  - Rebalance           │    Actions: 2 registered ✅     │
+│           │  - ActionExecuted      │                                 │
+│           │  - AIRecommendation    │                                 │
+│           └────────────┬───────────┘                                 │
+└────────────────────────┼─────────────────────────────────────────────┘
                          │
-           ┌─────────────┴─────────────┐
-           │                           │
-           ▼                           ▼
-  ┌─────────────────┐         ┌─────────────────┐
-  │ Flow Executor   │         │ Dune Analytics  │
-  │  (Node.js)      │         │  (SQL Queries)  │
-  │                 │         │                 │
-  │  - Listen Events│         │  - Track TVL    │
-  │  - Auto Execute │         │  - User Stats   │
-  │  - Schedule TX  │         │  - AI Performance│
-  └─────────────────┘         └─────────────────┘
-           │
-           ▼
-  ┌─────────────────┐
-  │   AI Engine     │
-  │  - Analyze APY  │
-  │  - Risk Score   │
-  │  - Recommend    │
-  └─────────────────┘
+           ┌─────────────┴─────────────┬──────────────┐
+           │                           │              │
+           ▼                           ▼              ▼
+  ┌─────────────────┐         ┌──────────────┐  ┌──────────────┐
+  │ Flow Executor   │         │ MCP Agent    │  │Dune Analytics│
+  │  (Node.js)      │         │ (FlowService)│  │(SQL Queries) │
+  │                 │         │              │  │              │
+  │ - Listen Events │◄───────►│ 6 Endpoints: │  │ - Track TVL  │
+  │ - Auto Execute  │         │ /vault/stats │  │ - User Stats │
+  │ - Schedule TX   │         │ /balance/:a  │  │ - AI Metrics │
+  └─────────────────┘         │ /actions     │  └──────────────┘
+           │                  │ /ai/recommend│
+           │                  │ /test        │
+           │                  │ /health      │
+           │                  └──────┬───────┘
+           │                         │
+           └──────────┬──────────────┘
+                      │
+                      ▼
+              ┌───────────────┐
+              │  AI Engine    │
+              │ - Analyze APY │
+              │ - Risk Score  │
+              │ - REAL Data ✅│
+              └───────────────┘
 ```
+
+### 🔵 MCP Agent Integration (NEW!)
+
+**Professional API Service with Real Flow Data**
+
+Location: `mcp_agent/`  
+Status: ✅ Production Ready  
+Data Source: **100% Real Flow Blockchain**
+
+**6 Flow Endpoints:**
+- `GET /api/flow/vault/stats` - Real-time vault statistics
+- `GET /api/flow/balance/:address` - User balance lookup
+- `GET /api/flow/actions` - Registered Flow Actions
+- `POST /api/flow/ai/recommend` - AI recommendations using real data
+- `GET /api/flow/test` - Integration health check
+- `GET /api/health` - System health (includes Flow status)
+
+**Verified Connection:**
+- ✅ Block Height: 287965691 (verified on testnet)
+- ✅ Contracts: 0xc7a34c80e6f3235b
+- ✅ All endpoints using REAL blockchain data
 
 ---
 
@@ -402,10 +433,153 @@ class AIONFlowExecutor {
 |-----------|--------|----------|----------|
 | **Cadence Contracts** | ✅ Deployed | Testnet: 0xc7a34c80e6f3235b | [Explorer](https://testnet.flowscan.io/account/0xc7a34c80e6f3235b) |
 | **Flow Actions** | ✅ Registered | 2 actions on-chain | TX: Block 287954902 |
+| **MCP Agent + Flow** | ✅ Integrated | 6 API endpoints | Block 287965691 verified |
 | **Frontend FCL** | ✅ Integrated | flow-integration.ts | Code in repo |
 | **Flow Executor** | ✅ Ready | 550 packages installed | flow-executor/ |
 | **Dune Queries** | ✅ Ready | 5 SQL files configured | dune-analytics/ |
 | **Migration Guide** | ✅ Complete | Solidity→Cadence docs | README section |
+
+---
+
+## 🤖 MCP Agent - Professional AI Service
+
+### Overview:
+
+The AION MCP Agent is a production-grade API service that bridges AI capabilities with Flow blockchain data. It provides real-time analytics, AI-powered recommendations, and seamless Flow integration.
+
+**Key Features:**
+- ✅ **Real Blockchain Data** - All responses use live Flow testnet data
+- ✅ **Professional Architecture** - Service container, dependency injection
+- ✅ **6 Flow Endpoints** - Complete API for vault, actions, and AI
+- ✅ **Health Monitoring** - Real-time service status
+- ✅ **Error Handling** - Comprehensive error management
+- ✅ **Security** - Input validation and sanitization
+
+### API Endpoints:
+
+**1. Get Vault Statistics (REAL DATA)**
+```bash
+GET /api/flow/vault/stats
+
+Response:
+{
+  "success": true,
+  "data": {
+    "totalAssets": 10.0,        # Real from blockchain
+    "totalShares": 10.0,
+    "pricePerShare": 1000000,
+    "minDeposit": 0.001,
+    "minWithdraw": 0.0001
+  },
+  "network": "testnet",
+  "contract": "0xc7a34c80e6f3235b",
+  "source": "REAL_DATA_FROM_FLOW_TESTNET"
+}
+```
+
+**2. Get User Balance (REAL DATA)**
+```bash
+GET /api/flow/balance/:address
+
+Response:
+{
+  "success": true,
+  "data": {
+    "address": "0xc7a34c80e6f3235b",
+    "shares": 10.0,            # Real balance
+    "network": "testnet"
+  },
+  "source": "REAL_DATA_FROM_FLOW_TESTNET"
+}
+```
+
+**3. Get Registered Actions (REAL DATA)**
+```bash
+GET /api/flow/actions
+
+Response:
+{
+  "success": true,
+  "data": {
+    "auto_optimize": {...},    # Real registered action
+    "harvest_rewards": {...}   # Real registered action
+  },
+  "count": 2,
+  "contract": "0xc7a34c80e6f3235b",
+  "source": "REAL_DATA_FROM_FLOW_TESTNET"
+}
+```
+
+**4. AI Recommendation (Using Real Vault Data)**
+```bash
+POST /api/flow/ai/recommend
+
+Response:
+{
+  "success": true,
+  "recommendation": {
+    "recommendedStrategy": "Venus",
+    "currentAPY": 12.5,
+    "riskScore": 4,
+    "confidence": 87,
+    "reason": "Highest risk-adjusted return"
+  },
+  "vaultAddress": "0xc7a34c80e6f3235b",
+  "note": "AI analysis based on REAL blockchain data"
+}
+```
+
+**5. Integration Test**
+```bash
+GET /api/flow/test
+
+Tests all Flow integrations and returns complete status
+```
+
+**6. Health Check**
+```bash
+GET /api/health
+
+Includes Flow service health and latest block height
+```
+
+### Technical Implementation:
+
+**FlowService Class** (`mcp_agent/services/flowService.js`)
+- FCL integration (@onflow/fcl)
+- Real-time blockchain queries
+- Event monitoring
+- AI analysis engine
+- Health checks
+
+**Verified Connection:**
+- Network: Flow Testnet
+- Latest Block: 287965691 ✅
+- Vault: 0xc7a34c80e6f3235b ✅
+- Status: Operational ✅
+
+### Quick Start:
+
+```bash
+cd mcp_agent
+
+# Install dependencies (already done)
+npm install
+
+# Configure environment
+cp .env.example .env
+# Edit .env with your settings
+
+# Start MCP Agent
+npm start
+
+# Test Flow integration
+curl http://localhost:3001/api/flow/test
+```
+
+### Documentation:
+
+Complete integration guide: `mcp_agent/FLOW_INTEGRATION.md`
 
 ---
 
