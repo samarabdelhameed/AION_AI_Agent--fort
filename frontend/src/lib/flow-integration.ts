@@ -1,351 +1,204 @@
 /**
- * Flow Blockchain Integration for Frontend
- * FCL.js integration for AION Vault
+ * Flow Blockchain Integration
+ * FCL (Flow Client Library) configuration and utilities
  */
 
 import * as fcl from "@onflow/fcl";
 import * as t from "@onflow/types";
 
-// Configuration
-const FLOW_CONFIG = {
-  "accessNode.api": import.meta.env.VITE_FLOW_ACCESS_NODE || "https://rest-testnet.onflow.org",
-  "discovery.wallet": import.meta.env.VITE_FLOW_WALLET || "https://fcl-discovery.onflow.org/testnet/authn",
-  "app.detail.title": "AION AI Vault",
-  "app.detail.icon": "https://aion.ai/logo.png",
-  "app.detail.description": "AI-Powered DeFi Vault on Flow"
+// Contract addresses (update after deployment)
+const CONTRACTS = {
+  AION_VAULT: "0xf8d6e0586b0a20c7", // Emulator address
+  ACTION_REGISTRY: "0xf8d6e0586b0a20c7", // Emulator address
 };
 
-// Contract addresses (from environment or defaults)
-export const CONTRACTS = {
-  AIONVault: import.meta.env.VITE_AION_VAULT_ADDRESS || "0xAIONVault",
-  ActionRegistry: import.meta.env.VITE_ACTION_REGISTRY_ADDRESS || "0xActionRegistry"
+// Network configuration
+const NETWORK = process.env.VITE_FLOW_NETWORK || "emulator";
+
+const CONFIG = {
+  emulator: {
+    accessNode: "http://localhost:8888",
+    discoveryWallet: "http://localhost:8701/fcl/authn",
+  },
+  testnet: {
+    accessNode: "https://rest-testnet.onflow.org",
+    discoveryWallet: "https://fcl-discovery.onflow.org/testnet/authn",
+  },
+  mainnet: {
+    accessNode: "https://rest-mainnet.onflow.org",
+    discoveryWallet: "https://fcl-discovery.onflow.org/authn",
+  },
 };
 
 /**
- * Initialize FCL with configuration
+ * Initialize Flow Client Library
  */
-export function initFlow() {
-  fcl.config(FLOW_CONFIG);
-}
+export function initFCL() {
+  const config = CONFIG[NETWORK as keyof typeof CONFIG] || CONFIG.emulator;
 
-/**
- * Connect user wallet
- */
-export async function connectWallet() {
-  return await fcl.authenticate();
-}
+  fcl
+    .config()
+    .put("accessNode.api", config.accessNode)
+    .put("discovery.wallet", config.discoveryWallet)
+    .put("app.detail.title", "AION AI Agent")
+    .put("app.detail.icon", "https://aion.ai/logo.png")
+    .put("flow.network", NETWORK);
 
-/**
- * Disconnect wallet
- */
-export async function disconnectWallet() {
-  return await fcl.unauthenticate();
+  console.log(`✅ FCL configured for ${NETWORK}`);
 }
 
 /**
  * Get current user
  */
-export function getCurrentUser() {
-  return fcl.currentUser;
+export async function getCurrentUser() {
+  return await fcl.currentUser.snapshot();
 }
 
 /**
- * Subscribe to user authentication state
+ * Authenticate user
  */
-export function subscribeToUser(callback: (user: any) => void) {
-  return fcl.currentUser.subscribe(callback);
-}
-
-// ============== Transactions ==============
-
-/**
- * Deposit FLOW to vault
- */
-export async function depositToVault(amount: string) {
-  const cadence = `
-    import AIONVault from ${CONTRACTS.AIONVault}
-    
-    transaction(amount: UFix64) {
-      prepare(signer: AuthAccount) {
-        AIONVault.deposit(from: signer, amount: amount)
-      }
-    }
-  `;
-
-  const txId = await fcl.mutate({
-    cadence,
-    args: (arg: any, t: any) => [
-      arg(parseFloat(amount).toFixed(8), t.UFix64)
-    ],
-    proposer: fcl.authz,
-    payer: fcl.authz,
-    authorizations: [fcl.authz],
-    limit: 1000
-  });
-
-  return await fcl.tx(txId).onceSealed();
+export async function login() {
+  await fcl.authenticate();
 }
 
 /**
- * Withdraw from vault
+ * Logout user
  */
-export async function withdrawFromVault(shares: string) {
-  const cadence = `
-    import AIONVault from ${CONTRACTS.AIONVault}
-    
-    transaction(shares: UFix64) {
-      prepare(signer: AuthAccount) {
-        AIONVault.withdraw(from: signer, shares: shares)
-      }
-    }
-  `;
-
-  const txId = await fcl.mutate({
-    cadence,
-    args: (arg: any, t: any) => [
-      arg(parseFloat(shares).toFixed(8), t.UFix64)
-    ],
-    proposer: fcl.authz,
-    payer: fcl.authz,
-    authorizations: [fcl.authz],
-    limit: 1000
-  });
-
-  return await fcl.tx(txId).onceSealed();
-}
-
-/**
- * Execute rebalance (AI Agent only)
- */
-export async function executeRebalance(
-  fromStrategy: string,
-  toStrategy: string,
-  amount: string,
-  reason: string
-) {
-  const cadence = `
-    import AIONVault from ${CONTRACTS.AIONVault}
-    
-    transaction(from: String, to: String, amount: UFix64, reason: String) {
-      prepare(signer: AuthAccount) {
-        AIONVault.rebalance(
-          executor: signer.address,
-          fromStrategy: from,
-          toStrategy: to,
-          amount: amount,
-          reason: reason
-        )
-      }
-    }
-  `;
-
-  const txId = await fcl.mutate({
-    cadence,
-    args: (arg: any, t: any) => [
-      arg(fromStrategy, t.String),
-      arg(toStrategy, t.String),
-      arg(parseFloat(amount).toFixed(8), t.UFix64),
-      arg(reason, t.String)
-    ],
-    proposer: fcl.authz,
-    payer: fcl.authz,
-    authorizations: [fcl.authz],
-    limit: 2000
-  });
-
-  return await fcl.tx(txId).onceSealed();
-}
-
-// ============== Scripts (Read Data) ==============
-
-/**
- * Get user balance in vault
- */
-export async function getUserBalance(userAddress: string) {
-  const cadence = `
-    import AIONVault from ${CONTRACTS.AIONVault}
-    
-    pub struct UserBalance {
-      pub let address: Address
-      pub let shares: UFix64
-      pub let assetValue: UFix64
-      pub let principal: UFix64
-      pub let unrealizedProfit: Fix64
-      pub let pricePerShare: UFix64
-      
-      init(addr: Address, sh: UFix64, val: UFix64, prin: UFix64, profit: Fix64, price: UFix64) {
-        self.address = addr
-        self.shares = sh
-        self.assetValue = val
-        self.principal = prin
-        self.unrealizedProfit = profit
-        self.pricePerShare = price
-      }
-    }
-    
-    pub fun main(userAddress: Address): UserBalance {
-      let shares = AIONVault.balanceOf(user: userAddress)
-      let assetValue = AIONVault.valueOf(user: userAddress)
-      let principal = AIONVault.principalOf[userAddress] ?? 0.0
-      let unrealizedProfit = AIONVault.getUnrealizedProfit(user: userAddress)
-      let pricePerShare = AIONVault.getPricePerShare()
-      
-      return UserBalance(
-        addr: userAddress,
-        sh: shares,
-        val: assetValue,
-        prin: principal,
-        profit: unrealizedProfit,
-        price: pricePerShare
-      )
-    }
-  `;
-
-  return await fcl.query({
-    cadence,
-    args: (arg: any, t: any) => [
-      arg(userAddress, t.Address)
-    ]
-  });
+export async function logout() {
+  await fcl.unauthenticate();
 }
 
 /**
  * Get vault statistics
  */
 export async function getVaultStats() {
-  const cadence = `
-    import AIONVault from ${CONTRACTS.AIONVault}
-    
-    pub fun main(): {String: UFix64} {
-      return AIONVault.getVaultStats()
-    }
-  `;
-
-  return await fcl.query({ cadence });
+  try {
+    const result = await fcl.query({
+      cadence: `
+        import AIONVault from ${CONTRACTS.AION_VAULT}
+        
+        access(all) fun main(): {String: UFix64} {
+          return AIONVault.getVaultStats()
+        }
+      `,
+    });
+    return result;
+  } catch (error) {
+    console.error("Failed to get vault stats:", error);
+    throw error;
+  }
 }
 
 /**
- * Get all registered actions
+ * Get user balance
  */
-export async function getAllActions() {
-  const cadence = `
-    import ActionRegistry from ${CONTRACTS.ActionRegistry}
-    
-    pub fun main(): {String: ActionRegistry.ActionMeta} {
-      return ActionRegistry.getAllActions()
-    }
-  `;
-
-  return await fcl.query({ cadence });
+export async function getUserBalance(address: string) {
+  try {
+    const result = await fcl.query({
+      cadence: `
+        import AIONVault from ${CONTRACTS.AION_VAULT}
+        
+        access(all) fun main(user: Address): UFix64 {
+          return AIONVault.balanceOf(user: user)
+        }
+      `,
+      args: (arg, t) => [arg(address, t.Address)],
+    });
+    return result;
+  } catch (error) {
+    console.error("Failed to get balance:", error);
+    throw error;
+  }
 }
 
 /**
- * Get action execution stats
+ * Deposit to vault
  */
-export async function getActionStats() {
-  const cadence = `
-    import ActionRegistry from ${CONTRACTS.ActionRegistry}
-    
-    pub fun main(): {String: UInt64} {
-      return ActionRegistry.getStats()
-    }
-  `;
+export async function deposit(amount: string) {
+  const transactionId = await fcl.mutate({
+    cadence: `
+      import AIONVault from ${CONTRACTS.AION_VAULT}
 
-  return await fcl.query({ cadence });
-}
-
-// ============== Event Subscription ==============
-
-/**
- * Subscribe to vault events
- */
-export async function subscribeToVaultEvents(
-  eventName: string,
-  callback: (events: any[]) => void
-) {
-  const contractAddress = CONTRACTS.AIONVault.replace('0x', '');
-  const eventType = `A.${contractAddress}.AIONVault.${eventName}`;
-  
-  // Poll for events (Flow doesn't have websocket subscriptions yet)
-  const pollInterval = setInterval(async () => {
-    try {
-      const latestBlock = await fcl.block({ sealed: true });
-      const events = await fcl.send([
-        fcl.getEventsAtBlockHeightRange(
-          eventType,
-          latestBlock.height - 10, // Last 10 blocks
-          latestBlock.height
-        )
-      ]).then(fcl.decode);
-      
-      if (events && events.length > 0) {
-        callback(events);
+      transaction(amount: UFix64) {
+        let signerAddress: Address
+        
+        prepare(signer: &Account) {
+          self.signerAddress = signer.address
+        }
+        
+        execute {
+          let shares = AIONVault.deposit(from: self.signerAddress, amount: amount)
+          log("Deposited ".concat(amount.toString()).concat(" and received ").concat(shares.toString()).concat(" shares"))
+        }
       }
-    } catch (error) {
-      console.error('Error polling events:', error);
-    }
-  }, 5000); // Poll every 5 seconds
+    `,
+    args: (arg, t) => [arg(amount, t.UFix64)],
+    proposer: fcl.authz,
+    payer: fcl.authz,
+    authorizations: [fcl.authz],
+    limit: 100,
+  });
 
-  return () => clearInterval(pollInterval);
-}
+  console.log("Transaction ID:", transactionId);
 
-// ============== Helpers ==============
-
-/**
- * Format UFix64 to readable number
- */
-export function formatUFix64(value: string): string {
-  return parseFloat(value).toFixed(8);
-}
-
-/**
- * Convert number to UFix64 string
- */
-export function toUFix64(value: number): string {
-  return value.toFixed(8);
+  // Wait for transaction to seal
+  const transaction = await fcl.tx(transactionId).onceSealed();
+  return transaction;
 }
 
 /**
- * Check if transaction was successful
+ * Withdraw from vault
  */
-export function isTransactionSuccessful(tx: any): boolean {
-  return tx.status === 4 && tx.statusCode === 0; // 4 = SEALED, 0 = SUCCESS
+export async function withdraw(shares: string) {
+  const transactionId = await fcl.mutate({
+    cadence: `
+      import AIONVault from ${CONTRACTS.AION_VAULT}
+
+      transaction(shares: UFix64) {
+        let signerAddress: Address
+        
+        prepare(signer: &Account) {
+          self.signerAddress = signer.address
+        }
+        
+        execute {
+          let amount = AIONVault.withdraw(from: self.signerAddress, shares: shares)
+          log("Withdrew ".concat(amount.toString()).concat(" by burning ").concat(shares.toString()).concat(" shares"))
+        }
+      }
+    `,
+    args: (arg, t) => [arg(shares, t.UFix64)],
+    proposer: fcl.authz,
+    payer: fcl.authz,
+    authorizations: [fcl.authz],
+    limit: 100,
+  });
+
+  const transaction = await fcl.tx(transactionId).onceSealed();
+  return transaction;
 }
 
 /**
- * Get transaction error message
+ * Subscribe to account changes
  */
-export function getTransactionError(tx: any): string {
-  if (tx.errorMessage) {
-    return tx.errorMessage;
+export function subscribeToUser(callback: (user: any) => void) {
+  return fcl.currentUser.subscribe(callback);
+}
+
+/**
+ * Get events by type
+ */
+export async function getEvents(eventType: string, fromBlock: number = 0) {
+  try {
+    const events = await fcl.send([
+      fcl.getEvents(eventType, fromBlock),
+    ]).then(fcl.decode);
+    return events;
+  } catch (error) {
+    console.error("Failed to get events:", error);
+    throw error;
   }
-  if (tx.events) {
-    const errorEvent = tx.events.find((e: any) => e.type.includes('Error'));
-    if (errorEvent) {
-      return errorEvent.data.message || 'Transaction failed';
-    }
-  }
-  return 'Unknown error';
 }
 
-export default {
-  initFlow,
-  connectWallet,
-  disconnectWallet,
-  getCurrentUser,
-  subscribeToUser,
-  depositToVault,
-  withdrawFromVault,
-  executeRebalance,
-  getUserBalance,
-  getVaultStats,
-  getAllActions,
-  getActionStats,
-  subscribeToVaultEvents,
-  formatUFix64,
-  toUFix64,
-  isTransactionSuccessful,
-  getTransactionError,
-  CONTRACTS
-};
-
+export { CONTRACTS, NETWORK };
+export default fcl;

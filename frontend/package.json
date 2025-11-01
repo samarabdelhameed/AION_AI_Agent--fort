@@ -24,6 +24,8 @@
     "test:strategies:run-script": "./scripts/run-strategies-tests.sh"
   },
   "dependencies": {
+    "@onflow/fcl": "^1.20.3",
+    "@onflow/types": "^1.4.2",
     "@privy-io/react-auth": "^2.21.2",
     "@rainbow-me/rainbowkit": "^2.2.8",
     "@reduxjs/toolkit": "^2.8.2",
