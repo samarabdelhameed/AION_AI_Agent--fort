@@ -15,6 +15,7 @@ import PythonBridge from './services/pythonBridge.js';
 import OracleService from './services/oracleService.js';
 import CacheManager from './services/cacheManager.js';
 import { MainnetWeb3Service } from './services/mainnetWeb3Service.js';
+import FlowService from './services/flowService.js';
 
 // 🚀 Advanced Environment Configuration
 (() => {
@@ -47,6 +48,7 @@ const pythonBridge = new PythonBridge(errorManager);
 const oracleService = new OracleService(errorManager);
 const cacheManager = new CacheManager();
 let web3Service = null;
+let flowService = null;
 
 // Register services in the container
 async function setupServices() {
@@ -67,6 +69,17 @@ async function setupServices() {
   } catch (web3Error) {
     console.log('⚠️ Web3Service initialization failed, continuing without blockchain integration:', web3Error.message);
     web3Service = null;
+  }
+  
+  // Initialize FlowService for Flow blockchain integration
+  try {
+    flowService = new FlowService(configManager, errorManager);
+    await flowService.initialize();
+    serviceContainer.singleton('flowService', () => flowService);
+    console.log('✅ Flow Service registered in container');
+  } catch (flowError) {
+    console.log('⚠️ FlowService initialization failed:', flowError.message);
+    flowService = null;
   }
   
   // Initialize configuration and lifecycle
@@ -226,11 +239,18 @@ app.get('/api/health', async (request, reply) => {
     const healthStatus = await lifecycleManager.getHealthStatus();
     const containerHealth = await serviceContainer.getHealthStatus();
     
+    // Add Flow service health
+    let flowHealth = null;
+    if (flowService) {
+      flowHealth = await flowService.healthCheck();
+    }
+    
     return {
       status: healthStatus.overall === 'healthy' ? 'operational' : 'degraded',
       timestamp: new Date().toISOString(),
       uptime: healthStatus.uptime,
       services: healthStatus.services,
+      flow: flowHealth,
       container: {
         totalServices: containerHealth.totalServices,
         initializedServices: containerHealth.initializedServices
@@ -659,3 +679,157 @@ const start = async () => {
 };
 
 start();
+// ============ FLOW BLOCKCHAIN ENDPOINTS ============
+
+// Get Flow vault stats (REAL DATA from testnet)
+app.get('/api/flow/vault/stats', async (request, reply) => {
+  try {
+    if (!flowService || !flowService.isInitialized) {
+      return reply.code(503).send({
+        error: 'Flow service not available',
+        message: 'Flow blockchain integration not initialized'
+      });
+    }
+
+    const stats = await flowService.getVaultStats();
+    
+    return {
+      success: true,
+      data: stats,
+      network: flowService.network,
+      contract: flowService.contracts.AION_VAULT,
+      timestamp: new Date().toISOString(),
+      source: 'REAL_DATA_FROM_FLOW_TESTNET'
+    };
+  } catch (error) {
+    logger.error('Flow vault stats error:', error);
+    return reply.code(500).send({
+      error: 'Failed to fetch vault stats',
+      message: error.message
+    });
+  }
+});
+
+// Get Flow user balance (REAL DATA)
+app.get('/api/flow/balance/:address', async (request, reply) => {
+  try {
+    if (!flowService) {
+      return reply.code(503).send({ error: 'Flow service not available' });
+    }
+
+    const { address } = request.params;
+    const balance = await flowService.getUserBalance(address);
+    
+    return {
+      success: true,
+      data: {
+        address,
+        shares: balance,
+        network: flowService.network
+      },
+      timestamp: new Date().toISOString(),
+      source: 'REAL_DATA_FROM_FLOW_TESTNET'
+    };
+  } catch (error) {
+    logger.error('Flow balance error:', error);
+    return reply.code(500).send({
+      error: 'Failed to fetch balance',
+      message: error.message
+    });
+  }
+});
+
+// Get registered Flow Actions (REAL DATA)
+app.get('/api/flow/actions', async (request, reply) => {
+  try {
+    if (!flowService) {
+      return reply.code(503).send({ error: 'Flow service not available' });
+    }
+
+    const actions = await flowService.getRegisteredActions();
+    
+    return {
+      success: true,
+      data: actions,
+      count: Object.keys(actions).length,
+      network: flowService.network,
+      contract: flowService.contracts.ACTION_REGISTRY,
+      timestamp: new Date().toISOString(),
+      source: 'REAL_DATA_FROM_FLOW_TESTNET'
+    };
+  } catch (error) {
+    logger.error('Flow actions error:', error);
+    return reply.code(500).send({
+      error: 'Failed to fetch actions',
+      message: error.message
+    });
+  }
+});
+
+// AI Recommendation endpoint (uses REAL vault data)
+app.post('/api/flow/ai/recommend', async (request, reply) => {
+  try {
+    if (!flowService) {
+      return reply.code(503).send({ error: 'Flow service not available' });
+    }
+
+    console.log('🤖 Generating AI recommendation using REAL Flow data...');
+    
+    const recommendation = await flowService.analyzeAndRecommend();
+    
+    return {
+      success: true,
+      recommendation,
+      vaultAddress: flowService.contracts.AION_VAULT,
+      network: flowService.network,
+      timestamp: new Date().toISOString(),
+      note: 'AI analysis based on REAL blockchain data from Flow Testnet'
+    };
+  } catch (error) {
+    logger.error('AI recommendation error:', error);
+    return reply.code(500).send({
+      error: 'Failed to generate recommendation',
+      message: error.message
+    });
+  }
+});
+
+// Test Flow connection
+app.get('/api/flow/test', async (request, reply) => {
+  try {
+    if (!flowService) {
+      return reply.code(503).send({ 
+        error: 'Flow service not available',
+        initialized: false
+      });
+    }
+
+    const health = await flowService.healthCheck();
+    const stats = await flowService.getVaultStats();
+    const actions = await flowService.getRegisteredActions();
+    
+    return {
+      success: true,
+      flow: {
+        network: flowService.network,
+        status: health.status,
+        latestBlock: health.latestBlock,
+        contracts: flowService.contracts
+      },
+      vault: stats,
+      actions: {
+        total: Object.keys(actions).length,
+        list: Object.keys(actions)
+      },
+      message: 'All Flow integrations working with REAL data!',
+      timestamp: new Date().toISOString()
+    };
+  } catch (error) {
+    logger.error('Flow test error:', error);
+    return reply.code(500).send({
+      error: 'Flow test failed',
+      message: error.message
+    });
+  }
+});
+
