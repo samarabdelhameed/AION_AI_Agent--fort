@@ -1,8 +1,8 @@
 /**
  * ActionRegistry.cdc
  * 
- * Flow Actions Registry - يسجل ويدير جميع Actions المتاحة للتنفيذ
- * يتوافق مع FLIP-338 Flow Actions standard
+ * Flow Actions Registry - Registers and manages all available Actions for execution
+ * Compatible with FLIP-338 Flow Actions standard
  * 
  * ✅ Updated for Cadence 1.0 (September 2024)
  */

@@ -1,8 +1,8 @@
 /**
  * AIONVault.cdc
  * 
- * AION AI-Powered Vault على Flow Blockchain
- * يدير الودائع، السحب، وإعادة التوازن الذكية مع تتبع كامل للأحداث
+ * AION AI-Powered Vault on Flow Blockchain
+ * Manages deposits, withdrawals, and intelligent rebalancing with full event tracking
  * 
  * ✅ Updated for Cadence 1.0 (September 2024)
  */
