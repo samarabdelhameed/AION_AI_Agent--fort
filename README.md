@@ -1347,3 +1347,41 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 [![Discord](https://img.shields.io/discord/123456789?style=for-the-badge&logo=discord)](https://discord.gg/aion-agent)
 
 </div>
+---
+
+## 🎯 Flow Actions Integration (FLIP-338)
+
+### Registered Actions on Testnet:
+
+**Address:** 0xc7a34c80e6f3235b
+
+| Action ID | Name | Category | Risk Level | Status |
+|-----------|------|----------|------------|--------|
+| `auto_optimize` | Auto Optimize Yield | optimize | 5/10 | ✅ Live |
+| `harvest_rewards` | Harvest All Rewards | automation | 3/10 | ✅ Live |
+
+### How to Use Actions:
+
+```bash
+# Discover available actions
+flow scripts execute cadence/scripts/get_actions.cdc --network testnet
+
+# Execute an action
+flow transactions send cadence/transactions/<action>.cdc --network testnet
+```
+
+### Flow Executor Automation:
+
+The Flow Executor monitors for `StrategyRecommendation` events and automatically executes registered actions when confidence > 80%.
+
+```
+Event: StrategyRecommendation (confidence: 85%)
+  ↓
+Executor: Auto-execute "auto_optimize" action
+  ↓
+Result: Funds rebalanced to highest APY protocol
+```
+
+**Status:** ✅ FLIP-338 Compatible, Production Ready
+
+---
