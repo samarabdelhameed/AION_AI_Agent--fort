@@ -8,22 +8,43 @@
 
 ---
 
-## 🎉 LIVE DEPLOYMENT - Flow Testnet
+## 🎉 LIVE DEPLOYMENT - Multi-Network
 
-### 📍 Contract Address: `0xc7a34c80e6f3235b`
+### 📍 Deployment Summary Table
 
-| Network | Type | Status | Assets | Transactions |
-|---------|------|--------|--------|--------------|
-| **Flow Testnet** | Cadence | ✅ LIVE | 10 FLOW | Sealed on Block 287951714 |
-| **Flow Emulator** | Cadence | ✅ Working | 14 FLOW | 4 transactions |
+| Network | Type | Contract | Address | Assets | TXs | Block | Status | Explorer |
+|---------|------|----------|---------|--------|-----|-------|--------|----------|
+| **Flow Testnet** | Cadence | ActionRegistry | `0xc7a34c80e6f3235b` | - | 2 | 287954902 | ✅ LIVE | [View](https://testnet.flowscan.io/account/0xc7a34c80e6f3235b) |
+| **Flow Testnet** | Cadence | AIONVault | `0xc7a34c80e6f3235b` | 10 FLOW | 1 | 287951714 | ✅ LIVE | [View](https://testnet.flowscan.io/account/0xc7a34c80e6f3235b) |
+| **Flow Emulator** | Cadence | ActionRegistry | `0xf8d6e0586b0a20c7` | - | 0 | - | ✅ Working | Local |
+| **Flow Emulator** | Cadence | AIONVault | `0xf8d6e0586b0a20c7` | 14 FLOW | 4 | Multiple | ✅ Working | Local |
 
-**🔗 View on Explorer:** [https://testnet.flowscan.io/account/0xc7a34c80e6f3235b](https://testnet.flowscan.io/account/0xc7a34c80e6f3235b)
+### 🔗 Verification Links:
 
-**📊 Real Transaction Proof:**
-- **TX Hash:** `57b1631173d2be3915fa46d25df4a82fb9f266f934f0dec6bc5401da083c109b`
-- **Block:** 287951714
-- **Amount:** 10.0 FLOW deposited
-- **Status:** ✅ SEALED & VERIFIED
+| Item | Details | Link |
+|------|---------|------|
+| **Testnet Explorer** | View contracts & transactions | [https://testnet.flowscan.io/account/0xc7a34c80e6f3235b](https://testnet.flowscan.io/account/0xc7a34c80e6f3235b) |
+| **First TX (Deposit)** | 10 FLOW deposited | [TX: 57b1631173d2be...](https://testnet.flowscan.io/tx/57b1631173d2be3915fa46d25df4a82fb9f266f934f0dec6bc5401da083c109b) |
+| **Action Registration** | auto_optimize action | [TX: Block 287954902](https://testnet.flowscan.io) |
+| **GitHub Source** | Complete source code | [samarabdelhameed/AION_AI_Agent--fort](https://github.com/samarabdelhameed/AION_AI_Agent--fort) |
+
+### 📊 Deployed Contracts Details:
+
+| Contract | Functions | Events | Lines of Code | Status |
+|----------|-----------|--------|---------------|--------|
+| **ActionRegistry.cdc** | 8 public functions | 4 event types | 306 LOC | ✅ Deployed |
+| **AIONVault.cdc** | 12 public functions | 8 event types | 472 LOC | ✅ Deployed |
+| **Total** | 20 functions | 12 events | 778 LOC | ✅ All Working |
+
+### 🎯 Real Transaction History (Testnet):
+
+| Date/Time | Type | Amount | TX Hash | Block | Status |
+|-----------|------|--------|---------|-------|--------|
+| Nov 1, 2025 | Deposit | 10.0 FLOW | `57b1631173d2be...` | 287951714 | ✅ SEALED |
+| Nov 1, 2025 | Register Action | auto_optimize | `592c2c6a9e91f5...` | 287954902 | ✅ SEALED |
+| Nov 1, 2025 | Register Action | harvest_rewards | `6cc7b7c12bf364...` | 287954963 | ✅ SEALED |
+
+**Total Transactions:** 3 sealed on Flow Testnet ✅
 
 ---
 
