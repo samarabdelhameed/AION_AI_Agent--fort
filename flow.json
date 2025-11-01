@@ -17,11 +17,27 @@
         "hashAlgorithm": "SHA3_256",
         "privateKey": "dd72967fd2bd75234ae9037dd4694c1f00baad63a10c35172bf65fbb8ad74b47"
       }
+    },
+    "testnet-account": {
+      "address": "0xdAFEE25F98Ff62504C1086eAcbb406190F3110D5",
+      "key": {
+        "type": "hex",
+        "index": 0,
+        "signatureAlgorithm": "ECDSA_P256",
+        "hashAlgorithm": "SHA3_256",
+        "privateKey": "d39a017b4559ad472cd1803c3c5af9bba588d3e773c24c5c6a0d30fc69794342"
+      }
     }
   },
   "deployments": {
     "emulator": {
       "emulator-account": [
+        "ActionRegistry",
+        "AIONVault"
+      ]
+    },
+    "testnet": {
+      "testnet-account": [
         "ActionRegistry",
         "AIONVault"
       ]
