@@ -1385,3 +1385,47 @@ Result: Funds rebalanced to highest APY protocol
 **Status:** ✅ FLIP-338 Compatible, Production Ready
 
 ---
+
+## 📊 Dune Analytics Dashboard
+
+### Live Analytics for AION Vault
+
+**Contract Address:** 0xc7a34c80e6f3235b
+
+**Available Queries:**
+1. **TVL Over Time** - Track total value locked
+2. **Rebalance History** - All strategy changes
+3. **AI Recommendations** - AI performance metrics  
+4. **Action Analytics** - Flow Actions usage
+5. **User Earnings** - Individual user performance
+
+**Queries Ready:** All 5 queries configured with testnet address ✅
+
+**To View:** 
+- Queries available in `dune-analytics/queries/`
+- Dashboard config: `dune-analytics/dashboard-config.json`
+- Ready to upload to Dune.com
+
+**Create Dashboard:** https://dune.com/auth/register
+
+---
+
+## 🚀 One-Click Optimize - Killer App Feature
+
+### AI-Powered Yield Optimization in One Click
+
+The AION Vault includes a revolutionary one-click optimization feature:
+
+1. **User clicks "Optimize"** 
+2. **AI analyzes** all available strategies
+3. **Automatically executes** best strategy
+4. **User sees results** in real-time
+
+**Implementation:**
+- Component: `frontend/src/components/OneClickOptimize.tsx`
+- Integration: Flow FCL + AI recommendations
+- User Flow: < 1 minute from start to optimized
+
+**Status:** ✅ Implemented and ready for demo
+
+---

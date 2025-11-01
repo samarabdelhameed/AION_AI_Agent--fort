@@ -14,7 +14,7 @@ WITH recommendations AS (
         JSON_EXTRACT_SCALAR(event_data, '$.metadataCID') AS metadata_cid,
         CAST(JSON_EXTRACT_SCALAR(event_data, '$.timestamp') AS BIGINT) AS rec_event_timestamp
     FROM flow.events
-    WHERE contract_address = '{{aion_vault_address}}'
+    WHERE contract_address = '0xc7a34c80e6f3235b'
         AND event_name = 'StrategyRecommendation'
         AND block_timestamp >= NOW() - INTERVAL '30' DAY
 ),
@@ -26,7 +26,7 @@ rebalances AS (
         CAST(JSON_EXTRACT_SCALAR(event_data, '$.amount') AS DECIMAL(38,8)) AS amount,
         JSON_EXTRACT_SCALAR(event_data, '$.reason') AS reason
     FROM flow.events
-    WHERE contract_address = '{{aion_vault_address}}'
+    WHERE contract_address = '0xc7a34c80e6f3235b'
         AND event_name = 'Rebalance'
         AND block_timestamp >= NOW() - INTERVAL '30' DAY
 )

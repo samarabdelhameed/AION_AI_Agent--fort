@@ -11,7 +11,7 @@ WITH registered_actions AS (
         JSON_EXTRACT_SCALAR(event_data, '$.category') AS category,
         CAST(JSON_EXTRACT_SCALAR(event_data, '$.riskLevel') AS INTEGER) AS risk_level
     FROM flow.events
-    WHERE contract_address = '{{action_registry_address}}'
+    WHERE contract_address = '0xc7a34c80e6f3235b'
         AND event_name = 'ActionRegistered'
 ),
 executed_actions AS (
@@ -23,7 +23,7 @@ executed_actions AS (
         CAST(JSON_EXTRACT_SCALAR(event_data, '$.gasUsed') AS BIGINT) AS gas_used,
         JSON_EXTRACT_SCALAR(event_data, '$.payload') AS payload
     FROM flow.events
-    WHERE contract_address = '{{action_registry_address}}'
+    WHERE contract_address = '0xc7a34c80e6f3235b'
         AND event_name = 'ActionExecuted'
         AND block_timestamp >= NOW() - INTERVAL '30' DAY
 )

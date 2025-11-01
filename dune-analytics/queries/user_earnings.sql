@@ -10,7 +10,7 @@ WITH user_deposits AS (
         MAX(block_timestamp) AS last_deposit_time,
         COUNT(*) AS deposit_count
     FROM flow.events
-    WHERE contract_address = '{{aion_vault_address}}'
+    WHERE contract_address = '0xc7a34c80e6f3235b'
         AND event_name = 'Deposit'
     GROUP BY user_address
 ),
@@ -21,7 +21,7 @@ user_withdrawals AS (
         SUM(CAST(JSON_EXTRACT_SCALAR(event_data, '$.shares') AS DECIMAL(38,8))) AS total_shares_burned,
         COUNT(*) AS withdrawal_count
     FROM flow.events
-    WHERE contract_address = '{{aion_vault_address}}'
+    WHERE contract_address = '0xc7a34c80e6f3235b'
         AND event_name = 'Withdraw'
     GROUP BY user_address
 ),
@@ -31,7 +31,7 @@ user_yields AS (
         SUM(CAST(JSON_EXTRACT_SCALAR(event_data, '$.amount') AS DECIMAL(38,8))) AS total_yield_realized,
         COUNT(*) AS yield_claim_count
     FROM flow.events
-    WHERE contract_address = '{{aion_vault_address}}'
+    WHERE contract_address = '0xc7a34c80e6f3235b'
         AND event_name = 'YieldRealized'
     GROUP BY user_address
 )

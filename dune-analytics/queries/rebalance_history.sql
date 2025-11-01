@@ -14,14 +14,14 @@ SELECT
     JSON_EXTRACT_SCALAR(event_data, '$.reason') AS rebalance_reason,
     CAST(JSON_EXTRACT_SCALAR(event_data, '$.timestamp') AS BIGINT) AS event_timestamp
 FROM flow.events
-WHERE contract_address = '{{aion_vault_address}}'
+WHERE contract_address = '0xc7a34c80e6f3235b'
     AND event_name = 'Rebalance'
     AND block_timestamp >= NOW() - INTERVAL '90' DAY
 ORDER BY block_timestamp DESC
 LIMIT 500;
 
 -- Query parameters:
--- {{aion_vault_address}} - Your AIONVault contract address
+-- 0xc7a34c80e6f3235b - Your AIONVault contract address
 
 -- Analytics:
 -- 1. Track rebalancing frequency

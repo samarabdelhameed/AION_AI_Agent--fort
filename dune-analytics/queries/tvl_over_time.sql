@@ -6,7 +6,7 @@ WITH deposits AS (
         DATE_TRUNC('day', block_timestamp) AS day,
         SUM(CAST(JSON_EXTRACT_SCALAR(event_data, '$.amount') AS DECIMAL(38,8))) AS deposit_amount
     FROM flow.events
-    WHERE contract_address = '{{aion_vault_address}}'
+    WHERE contract_address = '0xc7a34c80e6f3235b'
         AND event_name = 'Deposit'
         AND block_timestamp >= NOW() - INTERVAL '30' DAY
     GROUP BY 1
@@ -16,7 +16,7 @@ withdrawals AS (
         DATE_TRUNC('day', block_timestamp) AS day,
         SUM(CAST(JSON_EXTRACT_SCALAR(event_data, '$.amount') AS DECIMAL(38,8))) AS withdraw_amount
     FROM flow.events
-    WHERE contract_address = '{{aion_vault_address}}'
+    WHERE contract_address = '0xc7a34c80e6f3235b'
         AND event_name = 'Withdraw'
         AND block_timestamp >= NOW() - INTERVAL '30' DAY
     GROUP BY 1
@@ -41,5 +41,5 @@ FROM daily_flow
 ORDER BY day DESC;
 
 -- Query parameters:
--- {{aion_vault_address}} - Replace with your deployed AIONVault contract address
+-- 0xc7a34c80e6f3235b - Replace with your deployed AIONVault contract address
 
