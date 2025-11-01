@@ -19,7 +19,7 @@
       }
     },
     "testnet-account": {
-      "address": "0xdAFEE25F98Ff62504C1086eAcbb406190F3110D5",
+      "address": "0xc7a34c80e6f3235b",
       "key": {
         "type": "hex",
         "index": 0,
