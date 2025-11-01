@@ -1,0 +1,35 @@
+🔐 Flow Keys Generated
+═══════════════════════════════════════════════════════
+
+⚠️  KEEP THIS FILE SECURE - DO NOT SHARE!
+
+🔑 Private Key:
+feb2b4f05478987574151945687e41e1f6f620ed0b361854d28f87e1d42a308b
+
+🔓 Public Key:
+f7f34a049c17d6a9c4e392cbdc91ccafdd4c85cd63363d63e89325d18848947c38eac98cb5eaa0e6f137fd38d106f1fe161da01cfd6aa96eaed7491f4de36ba3
+
+🔤 Mnemonic:
+kitten spare bleak tonight chronic pen general mix sauce cash furnace mother
+
+📍 Derivation Path:
+m/44'/539'/0'/0/0
+
+═══════════════════════════════════════════════════════
+
+📋 Next Step:
+
+1. Go to: https://testnet-faucet.onflow.org/
+
+2. Paste this Public Key:
+   f7f34a049c17d6a9c4e392cbdc91ccafdd4c85cd63363d63e89325d18848947c38eac98cb5eaa0e6f137fd38d106f1fe161da01cfd6aa96eaed7491f4de36ba3
+
+3. Click "Create Account"
+
+4. Copy the ADDRESS you receive
+
+5. Run: ./add-testnet-account.sh
+   (Enter the address and private key above)
+
+═══════════════════════════════════════════════════════
+

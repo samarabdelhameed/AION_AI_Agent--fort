@@ -1,0 +1,126 @@
+{
+  "dashboardName": "AION AI Vault Analytics - Flow Edition",
+  "description": "Comprehensive analytics for AION AI-powered vault on Flow blockchain",
+  "version": "1.0.0",
+  "queries": [
+    {
+      "name": "TVL Over Time",
+      "file": "tvl_over_time.sql",
+      "visualization": "line_chart",
+      "refresh_schedule": "5_minutes",
+      "parameters": {
+        "aion_vault_address": "REPLACE_WITH_YOUR_CONTRACT_ADDRESS"
+      }
+    },
+    {
+      "name": "Rebalance History",
+      "file": "rebalance_history.sql",
+      "visualization": "table",
+      "refresh_schedule": "10_minutes",
+      "parameters": {
+        "aion_vault_address": "REPLACE_WITH_YOUR_CONTRACT_ADDRESS"
+      }
+    },
+    {
+      "name": "AI Recommendations vs Executions",
+      "file": "ai_recommendations.sql",
+      "visualization": "combo_chart",
+      "refresh_schedule": "15_minutes",
+      "parameters": {
+        "aion_vault_address": "REPLACE_WITH_YOUR_CONTRACT_ADDRESS"
+      }
+    },
+    {
+      "name": "Action Registry Analytics",
+      "file": "action_analytics.sql",
+      "visualization": "bar_chart",
+      "refresh_schedule": "30_minutes",
+      "parameters": {
+        "action_registry_address": "REPLACE_WITH_YOUR_CONTRACT_ADDRESS"
+      }
+    },
+    {
+      "name": "User Earnings & Performance",
+      "file": "user_earnings.sql",
+      "visualization": "table",
+      "refresh_schedule": "1_hour",
+      "parameters": {
+        "aion_vault_address": "REPLACE_WITH_YOUR_CONTRACT_ADDRESS"
+      }
+    }
+  ],
+  "layout": {
+    "sections": [
+      {
+        "title": "Overview",
+        "widgets": [
+          {
+            "query": "TVL Over Time",
+            "size": "full_width",
+            "position": 1
+          }
+        ]
+      },
+      {
+        "title": "AI Performance",
+        "widgets": [
+          {
+            "query": "AI Recommendations vs Executions",
+            "size": "two_thirds",
+            "position": 1
+          },
+          {
+            "query": "Action Registry Analytics",
+            "size": "one_third",
+            "position": 2
+          }
+        ]
+      },
+      {
+        "title": "Strategy & Users",
+        "widgets": [
+          {
+            "query": "Rebalance History",
+            "size": "half",
+            "position": 1
+          },
+          {
+            "query": "User Earnings & Performance",
+            "size": "half",
+            "position": 2
+          }
+        ]
+      }
+    ]
+  },
+  "kpis": [
+    {
+      "name": "Total Value Locked",
+      "query": "SELECT cumulative_tvl FROM tvl_over_time ORDER BY day DESC LIMIT 1",
+      "format": "currency",
+      "suffix": " FLOW"
+    },
+    {
+      "name": "Active Users (30d)",
+      "query": "SELECT COUNT(DISTINCT user_address) FROM user_deposits WHERE first_deposit_time >= NOW() - INTERVAL '30' DAY",
+      "format": "number"
+    },
+    {
+      "name": "AI Recommendation Accuracy",
+      "query": "SELECT ROUND(100.0 * SUM(CASE WHEN execution_status = 'Executed' THEN 1 ELSE 0 END) / COUNT(*), 2) FROM ai_recommendations",
+      "format": "percentage"
+    },
+    {
+      "name": "Total Rebalances",
+      "query": "SELECT COUNT(*) FROM rebalance_history",
+      "format": "number"
+    }
+  ],
+  "notes": [
+    "Replace all 'REPLACE_WITH_YOUR_CONTRACT_ADDRESS' with actual deployed contract addresses",
+    "Adjust refresh schedules based on your needs and Dune plan limits",
+    "Flow event data structure may vary - adjust JSON_EXTRACT paths accordingly",
+    "Consider adding custom filters for date ranges and specific users"
+  ]
+}
+

@@ -1,0 +1,52 @@
+# Flow sensitive files
+.flow-keys
+.contract-addresses
+
+# Environment files
+.env
+.env.local
+.env.*.local
+flow-executor/.env
+frontend/.env.local
+
+# Node modules
+node_modules/
+flow-executor/node_modules/
+frontend/node_modules/
+
+# Logs
+*.log
+logs/
+flow-executor/logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build outputs
+dist/
+build/
+*.js.map
+
+# Test outputs
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+
+# Foundry & Hardhat
+cache/
+artifacts/
+out/
+broadcast/
+
+# Misc
+*.tmp
+*.temp
+.cache/
