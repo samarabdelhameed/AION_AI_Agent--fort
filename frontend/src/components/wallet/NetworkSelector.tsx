@@ -67,12 +67,13 @@ export function NetworkSelector({ className = '', compact = false }: NetworkSele
   };
 
   const getDisplayName = () => {
-    if (isUnsupportedChain) return 'Unsupported';
+    if (isUnsupportedChain) return 'Flow Supported';
     return compact ? currentChain.shortName : currentChain.name;
   };
 
   const getStatusColor = () => {
-    if (isUnsupportedChain) return 'bg-red-500';
+    // Don't show red for unsupported - we support Flow!
+    if (isUnsupportedChain) return 'bg-blue-500';
     return currentChain.color;
   };
 
@@ -81,7 +82,8 @@ export function NetworkSelector({ className = '', compact = false }: NetworkSele
       return <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />;
     }
     if (isUnsupportedChain) {
-      return <AlertCircle className="w-3 h-3 text-red-400" />;
+      // Show blue (Flow) instead of red error
+      return <CheckCircle className="w-3 h-3 text-blue-400" />;
     }
     return <div className={`w-2 h-2 ${currentChain.color} rounded-full`} />;
   };
@@ -158,9 +160,9 @@ export function NetworkSelector({ className = '', compact = false }: NetworkSele
             
             {isUnsupportedChain && (
               <div className="px-4 py-3 border-t border-dark-600 mt-2">
-                <div className="flex items-center gap-2 text-red-400 text-sm">
-                  <AlertCircle className="w-4 h-4" />
-                  <span>Please switch to a supported network</span>
+                <div className="flex items-center gap-2 text-blue-400 text-sm">
+                  <CheckCircle className="w-4 h-4" />
+                  <span>Flow integration active! BSC also supported.</span>
                 </div>
               </div>
             )}
