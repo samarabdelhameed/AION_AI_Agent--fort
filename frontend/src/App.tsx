@@ -15,6 +15,7 @@ import { AdvancedOperationsPage } from './pages/AdvancedOperationsPage';
 import { LoadingProvider } from './contexts/LoadingContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Documentation } from './pages/Documentation';
+import { FlowProvider } from './contexts/FlowContext';
 
 export type Page = 'landing' | 'dashboard' | 'agent' | 'execute' | 'strategies' | 'proof' | 'timeline' | 'settings' | 'advanced' | 'docs';
 
@@ -49,28 +50,30 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <LoadingProvider>
-        <div className="min-h-screen bg-dark-900">
-          <Navbar currentPage={currentPage} onNavigate={setCurrentPage} />
-          
-          {/* Connection Status Indicator */}
-          <ConnectionStatusCompact className="fixed top-20 right-4 z-50" />
-          
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentPage}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              {renderPage()}
-            </motion.div>
-          </AnimatePresence>
+      <FlowProvider>
+        <LoadingProvider>
+          <div className="min-h-screen bg-dark-900">
+            <Navbar currentPage={currentPage} onNavigate={setCurrentPage} />
+            
+            {/* Connection Status Indicator */}
+            <ConnectionStatusCompact className="fixed top-20 right-4 z-50" />
+            
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentPage}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                {renderPage()}
+              </motion.div>
+            </AnimatePresence>
 
-          <Footer onNavigate={setCurrentPage} />
-        </div>
-      </LoadingProvider>
+            <Footer onNavigate={setCurrentPage} />
+          </div>
+        </LoadingProvider>
+      </FlowProvider>
     </ErrorBoundary>
   );
 }

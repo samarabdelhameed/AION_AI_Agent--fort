@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 import { useVault } from '../hooks/useVault';
 import { useWallet } from '../hooks/useWallet';
 import { LoadingSpinner } from '../components/ui/LoadingStates';
+import { useFlow } from '../contexts/FlowContext';
 
 interface VaultPageProps {}
 
@@ -22,6 +23,17 @@ const VaultPage: React.FC<VaultPageProps> = () => {
     calculateAssets,
     refreshData
   } = useVault(address);
+  
+  // Flow integration
+  const {
+    vaultStats: flowVaultStats,
+    userBalance: flowUserBalance,
+    isConnected: flowConnected,
+    deposit: flowDeposit,
+    withdraw: flowWithdraw,
+    refreshData: refreshFlowData,
+    loading: flowLoading
+  } = useFlow();
 
   const [depositAmount, setDepositAmount] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('');

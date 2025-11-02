@@ -419,7 +419,7 @@ class AIONFlowExecutor {
         await this.executeRebalance(event);
       }
     });
-  }
+    }
 }
 ```
 

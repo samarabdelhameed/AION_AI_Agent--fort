@@ -18,6 +18,7 @@ import { useRealData } from '../hooks/useRealData';
 import { useHistoricalPerformance } from '../hooks/useHistorical';
 import { useStrategies } from '../hooks/useStrategies';
 import { useRecentActivity } from '../hooks/useRecentActivity';
+import { useFlow } from '../contexts/FlowContext';
 
 // Default data constants
 const SYSTEM_HEALTH = [
@@ -73,6 +74,7 @@ interface DashboardProps {
 export function Dashboard({ onNavigate }: DashboardProps) {
   const { marketData, vaultStats, systemHealth, loading, lastUpdated, refresh } = useRealData();
   const { data: historical } = useHistoricalPerformance();
+  const { vaultStats: flowVaultStats, userBalance: flowUserBalance, isConnected, refreshData: refreshFlowData } = useFlow();
   const performanceData = useMemo(() => {
     if (historical.length) return historical;
     

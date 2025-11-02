@@ -8,6 +8,7 @@ import { useAccount, useChainId } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useState as __useLocalState } from 'react';
 import { HeaderUserMenu } from './HeaderUserMenu';
+import { FlowWalletButton } from '../wallet/FlowWalletButton';
 
 
 const navigation = [
@@ -158,9 +159,12 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
               <ChevronDown size={14} className="text-gray-400" />
             </div>
 
-            {/* Wallet Button + menu */}
-            <ConnectButton chainStatus="icon" showBalance={false} accountStatus={{ smallScreen: "avatar", largeScreen: "full" }} />
-            <HeaderUserMenu />
+            {/* Wallet Buttons */}
+            <div className="flex items-center gap-3">
+              <FlowWalletButton showLabel={true} />
+              <ConnectButton chainStatus="icon" showBalance={false} accountStatus={{ smallScreen: "avatar", largeScreen: "full" }} />
+              <HeaderUserMenu />
+            </div>
             {/* Optional: Passkey/AA quick action */}
             {/* <Button
               variant="secondary"
