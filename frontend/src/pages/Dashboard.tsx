@@ -443,18 +443,6 @@ export function Dashboard({ onNavigate }: DashboardProps) {
                 </div>
               </div>
             </div>
-        </motion.div>
-
-        {/* Flow Dual Network Banner - Cadence + EVM */}
-        <FlowDualNetworkBanner />
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <div className="flex items-center justify-between">
-            <div>
             <ButtonLoading
               size="sm"
               variant="ghost"
@@ -467,6 +455,9 @@ export function Dashboard({ onNavigate }: DashboardProps) {
             </ButtonLoading>
           </div>
         </motion.div>
+
+        {/* Flow Dual Network Banner - Cadence + EVM */}
+        <FlowDualNetworkBanner />
 
         {/* Three Column Layout */}
         <div className="grid lg:grid-cols-12 gap-6">
