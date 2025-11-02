@@ -19,6 +19,7 @@ import { useHistoricalPerformance } from '../hooks/useHistorical';
 import { useStrategies } from '../hooks/useStrategies';
 import { useRecentActivity } from '../hooks/useRecentActivity';
 import { useFlow } from '../contexts/FlowContext';
+import { FlowInfoBanner } from '../components/FlowInfoBanner';
 
 // Default data constants
 const SYSTEM_HEALTH = [
