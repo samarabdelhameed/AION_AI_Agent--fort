@@ -16,7 +16,6 @@ import OracleService from './services/oracleService.js';
 import CacheManager from './services/cacheManager.js';
 import { MainnetWeb3Service } from './services/mainnetWeb3Service.js';
 import FlowService from './services/flowService.js';
-import FlowEVMService from './services/flowEVMService.js';
 
 // 🚀 Advanced Environment Configuration
 (() => {
@@ -85,7 +84,8 @@ async function setupServices() {
   
   // Initialize FlowEVMService for Flow EVM integration
   try {
-    flowEVMService = new FlowEVMService(configManager, errorManager);
+    const FlowEVMServiceClass = (await import('./services/flowEVMService.js')).default;
+    flowEVMService = new FlowEVMServiceClass(configManager, errorManager);
     await flowEVMService.initialize();
     serviceContainer.singleton('flowEVMService', () => flowEVMService);
     console.log('✅ Flow EVM Service registered in container');
