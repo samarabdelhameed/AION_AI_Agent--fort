@@ -264,6 +264,7 @@ export function StrategiesExplorer({ onNavigate }: StrategiesExplorerProps) {
               >
                 <option value="all">All Networks</option>
                 <option value="bsc">BSC</option>
+                <option value="flow">🌊 Flow</option>
                 <option value="ethereum">Ethereum</option>
                 <option value="polygon">Polygon</option>
               </select>

@@ -382,6 +382,7 @@ export function ExecutePage({ onNavigate }: ExecutePageProps) {
                   className="w-full px-4 py-3 bg-dark-700/50 border border-dark-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-gold-500/50"
                 >
                   <option value="bsc">BNB Chain</option>
+                  <option value="flow">🌊 Flow Blockchain</option>
                   <option value="ethereum">Ethereum</option>
                   <option value="polygon">Polygon</option>
                 </select>
@@ -452,6 +453,7 @@ export function ExecutePage({ onNavigate }: ExecutePageProps) {
                   className="w-full px-4 py-3 bg-dark-700/50 border border-dark-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-gold-500/50"
                 >
                   <option value="BNB">BNB</option>
+                  <option value="FLOW">🌊 FLOW</option>
                   <option value="ETH">ETH</option>
                   <option value="USDC">USDC</option>
                 </select>
@@ -479,7 +481,7 @@ export function ExecutePage({ onNavigate }: ExecutePageProps) {
                 </div>
                 <div className="flex justify-between items-center mt-1">
                   <p className="text-xs text-gray-400">
-                    Available: {balances.BNB ? balances.BNB.toFixed(6) : '0.000000'} BNB
+                    Available: {balances[formData.currency] ? balances[formData.currency].toFixed(6) : '0.000000'} {formData.currency}
                   </p>
                   {formData.amount && (
                     <p className="text-xs text-gold-500">
@@ -496,7 +498,7 @@ export function ExecutePage({ onNavigate }: ExecutePageProps) {
                       onClick={() => setFormData(prev => ({ ...prev, amount: amount.toString() }))}
                       className="px-2 py-1 text-xs bg-dark-600 hover:bg-dark-500 text-gray-300 rounded transition-colors"
                     >
-                      {amount} BNB
+                      {amount} {formData.currency}
                     </button>
                   ))}
                 </div>
@@ -547,7 +549,7 @@ export function ExecutePage({ onNavigate }: ExecutePageProps) {
                 <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
                   <h4 className="text-green-400 font-medium mb-2">🔄 Compound Simulation</h4>
                   <p className="text-sm text-gray-300">
-                    Estimated rewards to compound: <span className="text-green-400">0.0023 BNB</span>
+                    Estimated rewards to compound: <span className="text-green-400">0.0023 {formData.currency}</span>
                   </p>
                   <p className="text-sm text-gray-300">
                     New APY after compounding: <span className="text-green-400">{(selectedStrategy?.apy || 8) + 0.5}%</span>
@@ -559,7 +561,7 @@ export function ExecutePage({ onNavigate }: ExecutePageProps) {
                 <div className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
                   <h4 className="text-yellow-400 font-medium mb-2">🌾 Harvest Simulation</h4>
                   <p className="text-sm text-gray-300">
-                    Available rewards: <span className="text-yellow-400">0.0023 BNB</span>
+                    Available rewards: <span className="text-yellow-400">0.0023 {formData.currency}</span>
                   </p>
                   <p className="text-sm text-gray-300">
                     You will receive: <span className="text-yellow-400">${(0.0023 * simulationResult.currentPrice).toFixed(2)}</span>
@@ -585,7 +587,7 @@ export function ExecutePage({ onNavigate }: ExecutePageProps) {
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-dark-700/50 rounded-xl">
                   <p className="text-sm text-gray-400 mb-1">Gas Estimate</p>
-                  <p className="text-lg font-semibold text-white">{simulationResult.gasEstimate} BNB</p>
+                  <p className="text-lg font-semibold text-white">{simulationResult.gasEstimate} {formData.currency}</p>
                   <p className="text-xs text-gray-400">${(simulationResult.gasEstimate * simulationResult.currentPrice).toFixed(2)}</p>
                 </div>
                 <div className="p-4 bg-dark-700/50 rounded-xl">
@@ -642,7 +644,7 @@ export function ExecutePage({ onNavigate }: ExecutePageProps) {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-400">Estimated gas:</span>
-                    <span className="text-white">{simulationResult.gasEstimate} BNB</span>
+                    <span className="text-white">{simulationResult.gasEstimate} {formData.currency}</span>
                   </div>
                   <div className="flex justify-between border-t border-dark-600 pt-3">
                     <span className="text-gray-400">Expected vault balance:</span>

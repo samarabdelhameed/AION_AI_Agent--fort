@@ -83,8 +83,9 @@ async function setupServices() {
   }
   
   // Initialize FlowEVMService for Flow EVM integration
+  let flowEVMService = null;
   try {
-    const FlowEVMServiceClass = (await import('./services/flowEVMService.js')).default;
+    const { default: FlowEVMServiceClass } = await import('./services/flowEVMService.js');
     flowEVMService = new FlowEVMServiceClass(configManager, errorManager);
     await flowEVMService.initialize();
     serviceContainer.singleton('flowEVMService', () => flowEVMService);

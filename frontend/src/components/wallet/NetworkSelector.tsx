@@ -19,6 +19,13 @@ const supportedChains = [
     shortName: 'Mainnet',
     color: 'bg-green-500',
     icon: '🌐'
+  },
+  {
+    id: 545, // Flow EVM Testnet
+    name: 'Flow Testnet',
+    shortName: 'Flow',
+    color: 'bg-blue-500',
+    icon: '🌊'
   }
 ];
 

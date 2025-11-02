@@ -276,6 +276,20 @@ class SettingsService {
         lastUsed: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
         nickname: 'Polygon Wallet',
         tags: ['layer2', 'gaming']
+      },
+      {
+        id: 'wallet_4',
+        address: '0xc7a34c80e6f3235b',
+        network: 'Flow Blockchain',
+        chainId: 545,
+        balance: 12.5,
+        currency: 'FLOW',
+        isActive: false,
+        isHardware: false,
+        walletType: 'walletconnect',
+        lastUsed: new Date(Date.now() - 3 * 60 * 60 * 1000),
+        nickname: 'Flow Wallet',
+        tags: ['flow', 'testnet', 'nft']
       }
     ];
 

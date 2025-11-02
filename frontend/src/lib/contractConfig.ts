@@ -390,6 +390,18 @@ export const networkConfig = {
     name: 'BSC Mainnet',
     rpcUrl: 'https://bsc-dataseed1.binance.org/',
     blockExplorer: 'https://bscscan.com'
+  },
+  flowTestnet: {
+    chainId: 545,
+    name: 'Flow EVM Testnet',
+    rpcUrl: 'https://testnet.evm.nodes.onflow.org',
+    blockExplorer: 'https://evm-testnet.flowscan.io'
+  },
+  flowMainnet: {
+    chainId: 747,
+    name: 'Flow EVM Mainnet',
+    rpcUrl: 'https://mainnet.evm.nodes.onflow.org',
+    blockExplorer: 'https://evm.flowscan.io'
   }
 };
 
