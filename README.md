@@ -14,50 +14,42 @@
 
 ---
 
-## 🔗 Important Links - للجنة التحكيم
+## 🔗 Live Deployments & Verification Links
 
-### 🌊 Live Flow Integration Proof
+### 🌊 Flow Blockchain Integration (LIVE)
 
-| Link Type | URL | Description |
-|-----------|-----|-------------|
-| **Flow Contract Explorer** | [testnet.flowscan.io/account/0xc7a34c80e6f3235b](https://testnet.flowscan.io/account/0xc7a34c80e6f3235b) | View deployed contracts & transactions |
-| **Flow Account (FlowDiver)** | [testnet.flowdiver.io/account/0xc7a34c80e6f3235b](https://testnet.flowdiver.io/account/0xc7a34c80e6f3235b) | Alternative explorer view |
-| **First Deposit TX** | [Flow TX: 57b16311...](https://testnet.flowscan.io/tx/57b1631173d2be3915fa46d25df4a82fb9f266f934f0dec6bc5401da083c109b) | 10 FLOW deposit transaction |
-| **Flow EVM Testnet** | [evm-testnet.flowscan.io](https://evm-testnet.flowscan.io) | Flow EVM explorer (Chain ID 545) |
+| Resource | Link | Status |
+|----------|------|--------|
+| **Flow Contract Explorer** | [testnet.flowscan.io/account/0xc7a34c80e6f3235b](https://testnet.flowscan.io/account/0xc7a34c80e6f3235b) | ✅ LIVE |
+| **Flow Account (FlowDiver)** | [testnet.flowdiver.io/account/0xc7a34c80e6f3235b](https://testnet.flowdiver.io/account/0xc7a34c80e6f3235b) | ✅ LIVE |
+| **First Deposit TX** | [TX: 57b16311...](https://testnet.flowscan.io/tx/57b1631173d2be3915fa46d25df4a82fb9f266f934f0dec6bc5401da083c109b) | ✅ Sealed |
+| **Flow EVM Explorer** | [evm-testnet.flowscan.io](https://evm-testnet.flowscan.io) | ✅ Chain 545 |
 
-### 💰 BSC Mainnet Deployments
+**Deployed Contracts:**
+- **ActionRegistry.cdc** (306 LOC) - Action management system
+- **AIONVault.cdc** (472 LOC) - Main vault contract
+- **Account Balance:** 100,000+ FLOW tokens
+- **Total Transactions:** 3+ sealed on Flow Testnet
+
+### 💰 BSC Mainnet Deployments (VERIFIED)
 
 | Contract | Address | Explorer |
 |----------|---------|----------|
-| **AIONVault** | `0xB176c1FA7B3feC56cB23681B6E447A7AE60C5254` | [View on BSCScan](https://bscscan.com/address/0xB176c1FA7B3feC56cB23681B6E447A7AE60C5254) |
-| **StrategyVenus** | `0x9D20A69E95CFEc37E5BC22c0D4218A705d90EdcB` | [View on BSCScan](https://bscscan.com/address/0x9d20a69e95cfec37e5bc22c0d4218a705d90edcb) |
-| **All 9 Contracts** | See below | [contracts/README.md](contracts/README.md) |
+| **AIONVault** | `0xB176c1FA7B3feC56cB23681B6E447A7AE60C5254` | [BSCScan](https://bscscan.com/address/0xB176c1FA7B3feC56cB23681B6E447A7AE60C5254) |
+| **StrategyVenus** | `0x9D20A69E95CFEc37E5BC22c0D4218A705d90EdcB` | [BSCScan](https://bscscan.com/address/0x9d20a69e95cfec37e5bc22c0d4218a705d90edcb) |
+| **+7 More Strategies** | See full list | [contracts/README.md](contracts/README.md) |
 
-### 📱 Application & Repository
+**Deployment Stats:**
+- **Total Contracts:** 9 verified on BSC Mainnet
+- **Compiler:** Solidity 0.8.30
+- **Tests:** 442/442 passing (100%)
 
-| Platform | URL | Description |
-|----------|-----|-------------|
-| **GitHub Repository** | [github.com/samarabdelhameed/AION_AI_Agent--fort](https://github.com/samarabdelhameed/AION_AI_Agent--fort) | Full source code |
-| **Twitter Announcement** | [x.com/SamarAbdelhmeed/status/1984624968525648228](https://x.com/SamarAbdelhmeed/status/1984624968525648228) | Project announcement |
-| **Live Demo** | `http://localhost:5173` | Run locally (see Quick Start) |
+### 📱 Repository & Social
 
-### 🧪 Test & Verify
-
-```bash
-# Clone & run in < 5 minutes
-git clone https://github.com/samarabdelhameed/AION_AI_Agent--fort.git
-cd AION_AI_Agent--fort
-npm run install:all
-npm run dev
-
-# Verify Flow integration
-./scripts/test-flow-complete.sh
-# Expected: 🎉 ALL TESTS PASSED!
-
-# Check live Flow data
-curl http://localhost:3001/api/health | jq .flow
-# Expected: {"status": "healthy", "latestBlock": 288118XXX}
-```
+| Platform | Link |
+|----------|------|
+| **GitHub** | [samarabdelhameed/AION_AI_Agent--fort](https://github.com/samarabdelhameed/AION_AI_Agent--fort) |
+| **Twitter** | [@SamarAbdelhmeed](https://x.com/SamarAbdelhmeed/status/1984624968525648228) |
 
 ---
 
@@ -633,51 +625,12 @@ Total: 100% pass rate across all test suites
 
 ---
 
-## 🔗 All Important Links - Quick Access
-
-### 🌊 Flow Blockchain (PRIMARY INTEGRATION)
-
-| Resource | Link | Status |
-|----------|------|--------|
-| **Flow Contract Explorer (FlowScan)** | [testnet.flowscan.io/account/0xc7a34c80e6f3235b](https://testnet.flowscan.io/account/0xc7a34c80e6f3235b) | ✅ LIVE |
-| **Flow Account (FlowDiver)** | [testnet.flowdiver.io/account/0xc7a34c80e6f3235b](https://testnet.flowdiver.io/account/0xc7a34c80e6f3235b) | ✅ LIVE |
-| **First Deposit Transaction** | [TX: 57b16311...](https://testnet.flowscan.io/tx/57b1631173d2be3915fa46d25df4a82fb9f266f934f0dec6bc5401da083c109b) | ✅ Sealed |
-| **Flow EVM Explorer** | [evm-testnet.flowscan.io](https://evm-testnet.flowscan.io) | ✅ Chain 545 |
-| **Flow Testnet Faucet** | [testnet-faucet.onflow.org](https://testnet-faucet.onflow.org/) | Get free FLOW |
-
-### 💰 BSC Mainnet (9 DEPLOYED CONTRACTS)
-
-| Contract | Address | Explorer |
-|----------|---------|----------|
-| **AIONVault** | `0xB176c1FA7B3feC56cB23681B6E447A7AE60C5254` | [BSCScan](https://bscscan.com/address/0xB176c1FA7B3feC56cB23681B6E447A7AE60C5254) |
-| **StrategyVenus** | `0x9D20A69E95CFEc37E5BC22c0D4218A705d90EdcB` | [BSCScan](https://bscscan.com/address/0x9d20a69e95cfec37e5bc22c0d4218a705d90edcb) |
-| **StrategyPancake** | `0xf2116eE783Be82ba51a6Eda9453dFD6A1723d205` | [BSCScan](https://bscscan.com/address/0xf2116ee783be82ba51a6eda9453dfd6a1723d205) |
-| **StrategyAave** | `0xd34A6Cbc0f9Aab0B2896aeFb957cB00485CD56Db` | [BSCScan](https://bscscan.com/address/0xd34a6cbc0f9aab0b2896aefb957cb00485cd56db) |
-| **All 9 Contracts** | See contracts/README.md | [View All](contracts/README.md) |
-
-### 📱 Repository & Social
-
-| Platform | Link | Description |
-|----------|------|-------------|
-| **GitHub Repository** | [github.com/samarabdelhameed/AION_AI_Agent--fort](https://github.com/samarabdelhameed/AION_AI_Agent--fort) | Full source code ⭐ |
-| **Twitter Announcement** | [x.com/SamarAbdelhmeed/status/1984624968525648228](https://x.com/SamarAbdelhmeed/status/1984624968525648228) | Project launch 🐦 |
-
-### 🧪 Live Application
-
-| Service | URL | Status |
-|---------|-----|--------|
-| **Frontend (Local)** | http://localhost:5173 | Run `npm run dev` |
-| **MCP Agent API (Local)** | http://localhost:3001/api/health | Run `npm run dev` |
-
----
-
 ## 📄 Documentation
 
-- **Main README:** This file
-- **Contracts README:** [contracts/README.md](contracts/README.md) - Smart contract details
-- **MCP Agent README:** [mcp_agent/README.md](mcp_agent/README.md) - Backend architecture
-- **Flow Integration:** See sections above for complete Flow proof
-- **API Docs:** [docs/TECHNICAL_DOCUMENTATION.md](docs/TECHNICAL_DOCUMENTATION.md)
+- **Contracts:** [contracts/README.md](contracts/README.md) - Smart contract details & deployment
+- **MCP Agent:** [mcp_agent/README.md](mcp_agent/README.md) - Backend services & API
+- **Flow Contracts:** [cadence/README.md](cadence/README.md) - Cadence smart contracts
+- **Scripts:** [scripts/README.md](scripts/README.md) - Automation & testing scripts
 
 ---
 
