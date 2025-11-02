@@ -162,8 +162,8 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
             {/* Wallet Buttons */}
             <div className="flex items-center gap-3">
               <FlowWalletButton showLabel={true} />
-              <ConnectButton chainStatus="icon" showBalance={false} accountStatus={{ smallScreen: "avatar", largeScreen: "full" }} />
-              <HeaderUserMenu />
+            <ConnectButton chainStatus="icon" showBalance={false} accountStatus={{ smallScreen: "avatar", largeScreen: "full" }} />
+            <HeaderUserMenu />
             </div>
             {/* Optional: Passkey/AA quick action */}
             {/* <Button

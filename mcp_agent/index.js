@@ -16,6 +16,7 @@ import OracleService from './services/oracleService.js';
 import CacheManager from './services/cacheManager.js';
 import { MainnetWeb3Service } from './services/mainnetWeb3Service.js';
 import FlowService from './services/flowService.js';
+import FlowEVMService from './services/flowEVMService.js';
 
 // 🚀 Advanced Environment Configuration
 (() => {
@@ -71,15 +72,26 @@ async function setupServices() {
     web3Service = null;
   }
   
-  // Initialize FlowService for Flow blockchain integration
+  // Initialize FlowService for Flow Cadence blockchain integration
   try {
     flowService = new FlowService(configManager, errorManager);
     await flowService.initialize();
     serviceContainer.singleton('flowService', () => flowService);
-    console.log('✅ Flow Service registered in container');
+    console.log('✅ Flow Cadence Service registered in container');
   } catch (flowError) {
     console.log('⚠️ FlowService initialization failed:', flowError.message);
     flowService = null;
+  }
+  
+  // Initialize FlowEVMService for Flow EVM integration
+  try {
+    flowEVMService = new FlowEVMService(configManager, errorManager);
+    await flowEVMService.initialize();
+    serviceContainer.singleton('flowEVMService', () => flowEVMService);
+    console.log('✅ Flow EVM Service registered in container');
+  } catch (flowEVMError) {
+    console.log('⚠️ FlowEVMService initialization failed:', flowEVMError.message);
+    flowEVMService = null;
   }
   
   // Initialize configuration and lifecycle
@@ -828,6 +840,141 @@ app.get('/api/flow/test', async (request, reply) => {
     logger.error('Flow test error:', error);
     return reply.code(500).send({
       error: 'Flow test failed',
+      message: error.message
+    });
+  }
+});
+
+
+// ============ FLOW EVM ENDPOINTS (Solidity on Flow) ============
+
+// Get Flow EVM health
+app.get('/api/flow-evm/health', async (request, reply) => {
+  try {
+    if (!flowEVMService) {
+      return reply.code(503).send({ 
+        error: 'Flow EVM service not available',
+        network: 'flow-evm-testnet'
+      });
+    }
+
+    const health = await flowEVMService.healthCheck();
+    
+    return {
+      success: true,
+      ...health,
+      timestamp: new Date().toISOString()
+    };
+  } catch (error) {
+    logger.error('Flow EVM health error:', error);
+    return reply.code(500).send({
+      error: 'Failed to check Flow EVM health',
+      message: error.message
+    });
+  }
+});
+
+// Get Flow EVM vault info
+app.get('/api/flow-evm/vault', async (request, reply) => {
+  try {
+    if (!flowEVMService) {
+      return reply.code(503).send({ error: 'Flow EVM service not available' });
+    }
+
+    const vaultInfo = await flowEVMService.getVaultInfo();
+    
+    return {
+      success: true,
+      data: vaultInfo,
+      network: 'flow-evm-testnet',
+      chainId: 545,
+      timestamp: new Date().toISOString()
+    };
+  } catch (error) {
+    logger.error('Flow EVM vault error:', error);
+    return reply.code(500).send({
+      error: 'Failed to fetch Flow EVM vault',
+      message: error.message
+    });
+  }
+});
+
+// Combined Flow status (Cadence + EVM)
+app.get('/api/flow/combined-status', async (request, reply) => {
+  try {
+    const cadence = flowService ? await flowService.healthCheck() : { status: 'not_available' };
+    const evm = flowEVMService ? await flowEVMService.healthCheck() : { status: 'not_available' };
+    
+    return {
+      success: true,
+      flow: {
+        cadence: cadence,
+        evm: evm
+      },
+      message: 'Multi-chain Flow integration: Cadence + EVM',
+      timestamp: new Date().toISOString()
+    };
+  } catch (error) {
+    logger.error('Combined status error:', error);
+    return reply.code(500).send({
+      error: 'Failed to get combined status',
+      message: error.message
+    });
+  }
+});
+
+
+// ============ FLOW EVM ENDPOINTS ============
+
+// Get Flow EVM vault stats
+app.get('/api/flow-evm/vault/stats', async (request, reply) => {
+  try {
+    if (!flowEVMService || !flowEVMService.isInitialized) {
+      return reply.code(503).send({
+        error: 'Flow EVM service not available',
+        message: 'Deploy contracts to Flow EVM first'
+      });
+    }
+
+    const stats = await flowEVMService.getVaultStats();
+    
+    return {
+      success: true,
+      data: stats,
+      network: flowEVMService.network.name,
+      chainId: flowEVMService.network.chainId,
+      timestamp: new Date().toISOString(),
+      source: 'REAL_DATA_FROM_FLOW_EVM_TESTNET'
+    };
+  } catch (error) {
+    logger.error('Flow EVM vault stats error:', error);
+    return reply.code(500).send({
+      error: 'Failed to fetch vault stats',
+      message: error.message
+    });
+  }
+});
+
+// Get Flow EVM network info
+app.get('/api/flow-evm/network', async (request, reply) => {
+  try {
+    if (!flowEVMService) {
+      return reply.code(503).send({ error: 'Flow EVM service not available' });
+    }
+
+    const networkInfo = flowEVMService.getNetworkInfo();
+    const health = await flowEVMService.healthCheck();
+    
+    return {
+      success: true,
+      network: networkInfo,
+      health: health,
+      timestamp: new Date().toISOString()
+    };
+  } catch (error) {
+    logger.error('Flow EVM network error:', error);
+    return reply.code(500).send({
+      error: 'Failed to get network info',
       message: error.message
     });
   }
