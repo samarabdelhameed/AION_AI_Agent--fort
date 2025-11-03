@@ -173,10 +173,10 @@ contract AIONVault {
     mapping(address => uint256) public sharesOf;
     uint256 public totalShares;
     uint256 public totalAssets;
-    
+
     // Strategy management
     IStrategyAdapter public currentAdapter;
-    
+
     // Core functions
     function deposit(uint256 amount) external payable returns (uint256 shares);
     function withdrawShares(uint256 shares) external returns (uint256 amount);
@@ -264,7 +264,7 @@ forge coverage
 ```solidity
 contract VenusAdapter is IStrategyAdapter {
     IVBNB public vToken;
-    
+
     function deposit(uint256 amount) external returns (uint256) {
         vToken.mint{value: amount}();
         return _calculateShares(amount);

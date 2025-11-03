@@ -50,3 +50,4 @@ broadcast/
 *.tmp
 *.temp
 .cache/
+.vercel
