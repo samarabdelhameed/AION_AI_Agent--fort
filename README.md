@@ -5,10 +5,11 @@
 [![Flow Testnet](https://img.shields.io/badge/Flow-Testnet%20Live-00EF8B?style=for-the-badge&logo=flow)](https://testnet.flowdiver.io/account/0xc7a34c80e6f3235b)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-100%25%20Passing-success?style=for-the-badge)](/)
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)](https://aion-ai-agent-flow.vercel.app)
 
 **Autonomous AI Agent for DeFi Strategy Optimization on Flow + BNB Chain**
 
-[Live Demo](http://localhost:5173) • [Documentation](docs/) • [Smart Contracts](cadence/contracts/)
+[🌐 Live Demo](https://aion-ai-agent-flow.vercel.app) • [📖 Documentation](docs/) • [📜 Smart Contracts](cadence/contracts/)
 
 </div>
 
@@ -44,12 +45,13 @@
 - **Compiler:** Solidity 0.8.30
 - **Tests:** 442/442 passing (100%)
 
-### 📱 Repository & Social
+### 📱 Live Application & Repository
 
-| Platform | Link |
-|----------|------|
-| **GitHub** | [samarabdelhameed/AION_AI_Agent--fort](https://github.com/samarabdelhameed/AION_AI_Agent--fort) |
-| **Twitter** | [@SamarAbdelhmeed](https://x.com/SamarAbdelhmeed/status/1984624968525648228) |
+| Platform | Link | Status |
+|----------|------|--------|
+| **Live Demo (Vercel)** | [aion-ai-agent-flow.vercel.app](https://aion-ai-agent-flow.vercel.app) | ✅ LIVE |
+| **GitHub** | [samarabdelhameed/AION_AI_Agent--fort](https://github.com/samarabdelhameed/AION_AI_Agent--fort) | ✅ Public |
+| **Twitter** | [@SamarAbdelhmeed](https://x.com/SamarAbdelhmeed/status/1984624968525648228) | 🐦 Announcement |
 
 ---
 
